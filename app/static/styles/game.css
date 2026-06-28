@@ -1,0 +1,135 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: #6ab04c;
+    overflow: hidden;
+    font-family: 'Press Start 2P', monospace;
+}
+
+canvas {
+    display: block;
+    image-rendering: pixelated;
+}
+
+#hint {
+    position: fixed;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 7px;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
+    pointer-events: none;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }
+}
+
+#popup-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+}
+
+#popup-overlay.active {
+    display: flex;
+}
+
+#popup {
+    background: #f5e6c8;
+    background-image:
+        radial-gradient(ellipse at 20% 30%, rgba(180,140,80,0.08) 0%, transparent 60%),
+        repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(139,100,50,0.07) 28px, rgba(139,100,50,0.07) 29px);
+    border: 3px solid #8b6432;
+    border-radius: 4px;
+    box-shadow: 4px 4px 0 #5a3e1e, 0 0 0 1px #c8a96e inset;
+    max-width: 900px;
+    width: 90%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#popup-header {
+    padding: 16px 20px 12px;
+    border-bottom: 2px solid #c8a96e;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#popup-title { font-size: 10px; color: #4a2e0a; }
+
+#popup-close {
+    background: #8b6432;
+    color: #f5e6c8;
+    border: none;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+#popup-close:hover { background: #5a3e1e; }
+
+#popup-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+#popup-body::-webkit-scrollbar       { width: 6px; }
+#popup-body::-webkit-scrollbar-track { background: #e8d5a3; }
+#popup-body::-webkit-scrollbar-thumb { background: #8b6432; border-radius: 3px; }
+
+.popup-section { margin-bottom: 20px; }
+
+.popup-section p, .popup-section li {
+    font-family: 'VT323', monospace;
+    font-size: 25px;
+    color: #3a2010;
+    line-height: 1.4;
+    margin-bottom: 4px;
+}
+
+.popup-section ul { padding-left: 16px; }
+
+.exp-item {
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px dotted #c8a96e;
+}
+
+.exp-item:last-child { border-bottom: none; margin-bottom: 0; }
+
+.exp-company {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: #6ab04c;
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+.exp-role {
+    font-family: 'VT323', monospace;
+    font-weight: 700;
+    font-size: 35px;
+    color: #4a2e0a;
+    margin-bottom: 10px;
+}
+
+.exp-duration {
+    font-family: 'VT323', monospace;
+    font-size: 25px;
+    color: #8b6432;
+    margin-bottom: 10px;
+}

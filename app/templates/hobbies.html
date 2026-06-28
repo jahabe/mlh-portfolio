@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="og:title" content="Jane Choi · Hobbies">
+    <meta property="og:description" content="My Personal Portfolio">
+    <meta property="og:url" content="{{ url }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <title>Hobbies · Jane Choi</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/hobbies.css') }}">
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+    <a href="/jane" class="nav-back">&lt;&lt;BACK</a>
+    <div class="nav-title">JANE CHOI</div>
+    <div></div>
+</nav>
+
+<!-- Header -->
+<div class="page-header">
+    <h1>HOBBIES</h1>
+    <p>Things I love outside of code</p>
+</div>
+
+<!-- Hobby cards (Jinja loop) -->
+<div class="hobbies-grid">
+    {% for hobby in hobbies %}
+    <div class="hobby-card">
+        <img
+            class="hobby-card-image"
+            src="{{ url_for('static', filename=hobby.image) }}"
+            alt="{{ hobby.name }}"
+        >
+        <div class="hobby-card-body">
+            <span class="hobby-card-tag">HOBBY</span>
+            <h3 class="hobby-card-name">{{ hobby.name }}</h3>
+            {% if hobby.description %}
+            <p class="hobby-card-desc">{{ hobby.description }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="page-header">
+    <h1>PLACES I'VE VISITED</h1>
+    </div>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <!-- Map -->
+    <div id="map" style="width: 90%; max-width: 900px; margin: 0 auto 60px; height: 400px; border-radius: 8px;"></div>
+
+    <!-- Leaflet JS + map init -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map').setView([30, -30], 2);
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png').addTo(map);
+
+        const places = {{ places | tojson }};
+        places.forEach(p => {
+            L.marker([p.lat, p.lng]).addTo(map).bindPopup(p.name);
+        });
+    </script>
+
+    </body>
+</div>
+
+
+
+</body>
+</html>

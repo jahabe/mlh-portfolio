@@ -1,93 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta property="og:title" content="Personal Portfolio">
+    <meta property="og:title" content="Jane Choi · Portfolio">
     <meta property="og:description" content="My Personal Portfolio">
     <meta property="og:url" content="{{ url }}">
-
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-        rel="stylesheet">
-
-    <link lang='sass' rel="stylesheet" href="../static/styles/main.css">
-    <link rel='icon' href='../static/img/favicon.ico' type='image/x-icon' />
-    <title>{{ title }}</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <title>Jane Choi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/game.css') }}">
 </head>
-
 <body>
-    <header class="nav-bar">
-        <div class="nav-content">
-            <a href="/">
-                <div class="nav-logo">
-                    <img src="../static/img/logo.svg" />
-                </div>
-            </a>
-        </div>
-    </header>
 
-    <!-- Profile -->
-    <div class="profile">
-        <div class="profile-picture">
-            <img src="{{ url_for('static', filename='img/Jane_hackathon_refined.jpg') }}">
+<canvas id="game"></canvas>
+<div id="hint">ARROW KEYS TO MOVE &nbsp;·&nbsp; ENTER TO INTERACT</div>
+
+<!-- Popup -->
+<div id="popup-overlay">
+    <div id="popup">
+        <div id="popup-header">
+            <div id="popup-title"></div>
+            <button id="popup-close">✕ CLOSE</button>
         </div>
-        <h1>Jane Choi</h1>
+        <div id="popup-body"></div>
     </div>
+</div>
 
-    <nav class="menu-bar">
-        <a href="/jane">About</a>
-        <a href="/jane/hobbies">Hobbies</a>
-    </nav>
+<script>
+    // Flask/Jinja data passed to game.js via global variables
+    const FLASK_EXPERIENCES = {{ work_experiences | tojson }};
+    const FLASK_EDUCATIONS  = {{ educations | tojson }};
+    const FLASK_HOBBIES     = {{ hobbies | tojson }};
+</script>
+<script src="{{ url_for('static', filename='scripts/game.js') }}"></script>
 
-    <!-- About -->
-    <section class="about">
-        <h2>About Me</h2>
-        <p>Hello, my name is Jane Choi. I am currently pursuing a bachelor’s degree in 
-            Computer Science and Software Engineering at the University of Washington. 
-            I enjoy collaborating to build software and seeing products used by real users. 
-            I am driven to learn, combine skills, and collaborate with others. 
-            I look forward to bringing my skills and experiences to future opportunities 
-            and contributing positively to the teams I work with.</p>
-        <img src="{{ url_for('static', filename='img/sunset_square.jpg') }}" alt="Jane Choi">
-    </section>
-
-    <!-- Work Experience -->
-    <section class="work-experience">
-        <h2>Work Experience</h2>
-        {% for experience in work_experiences %}
-        <div class ="experience">
-            <h3>{{ experience.company }}</h3>
-            <p>{{ experience.role }} </p>
-            <p> {{ experience.duration }} </p>
-            <ul>
-                {% for point in experience.description %}
-                    <li>{{ point }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        {% endfor %}
-    </section>
-
-    <!-- Education -->
-    <section class="education">
-        <h2>Education</h2>
-        {% for education in educations %}
-        <div class="education-item">
-            <h3>{{ education.school }}</h3>
-            <img src="{{ url_for('static', filename='img/uw_logo.png') }}" alt="University of Washington Logo">
-            <p>{{ education.degree }} | {{ education.duration }}</p>
-        </div>
-        {% endfor %}
-    </section>
-
-    <!-- Map -->
-    <section class="map">
-        <h2>Places I've Visited</h2>
-        <img src="{{ url_for('static', filename='img/jane_visited.jpg') }}" alt="Map of Places Visited">
-    </section>
 </body>
 </html>
