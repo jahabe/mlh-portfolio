@@ -249,7 +249,7 @@ function buildContactHTML() {
 // ── Popup data ───────────────────────────────────────────
 // Built after page load so FLASK_* variables are available
 const popupData = {
-    about:      { title: '🌸 ABOUT ME',        html: buildAboutHTML()      },
+    about:      { title: '🌸 ABOUT ME',         html: buildAboutHTML()      },
     education:  { title: '🎓 EDUCATION',        html: buildEducationHTML()  },
     experience: { title: '💼 WORK EXPERIENCE',  html: buildExperienceHTML() },
     projects:   { title: '🔭 PROJECTS',         html: buildProjectsHTML()   },
@@ -325,11 +325,11 @@ for (let i = 0; i < 300; i++) {
 const petals = [];
 for (let i = 0; i < 60; i++) {
     petals.push({
-        x:      Math.random() * 1920,   // 화면 너비보다 넉넉히
-        y:      Math.random() * 1080,   // 처음엔 랜덤 위치에서 시작
+        x:      Math.random() * 1920,   
+        y:      Math.random() * 1080,   
         size:   Math.random() * 6 + 3,
-        speedX: Math.random() * 1 - 0.5,  // 좌우로 살짝 흔들림
-        speedY: Math.random() * 1 + 0.5,  // 아래로 떨어지는 속도
+        speedX: Math.random() * 1 - 0.5,  // wave
+        speedY: Math.random() * 1 + 0.5,  // speed falling down
         angle:  Math.random() * Math.PI * 2,
         spin:   Math.random() * 0.05 - 0.025,
         opacity: Math.random() * 0.6 + 0.4,
@@ -392,18 +392,18 @@ function drawScene() {
 
     // Cherry blossom petals
     for (const p of petals) {
-        // 위치 업데이트
+        // Update position and angle
         p.x += p.speedX;
         p.y += p.speedY;
         p.angle += p.spin;
 
-        // 화면 밖으로 나가면 위에서 다시 시작
+        // Reset if out of bounds
         if (p.y > canvas.height + 10) {
             p.y = -10;
             p.x = Math.random() * canvas.width;
         }
 
-        // 꽃잎 그리기 (타원형)
+        // Draw the petal 
         ctx.save();
         ctx.globalAlpha = p.opacity;
         ctx.fillStyle = p.color;
@@ -440,11 +440,11 @@ function drawFlowerBed(bed) {
         const flowerColors = [bed.color, '#f9ca24', '#ff7979'];
 
         flowerPositions.forEach(([fx, fy], i) => {
-        // 꽃마다 다른 타이밍으로 흔들리게 offset 줌
+        // Add a slight sway and bob effect to the flowers
         const sway = Math.sin(Date.now() / 600 + i * 0.8) * 3;
         const bob  = Math.cos(Date.now() / 800 + i * 0.5) * 2;
 
-        // Stem (흔들림 반영)
+        // Stem (drawn as a rectangle)
         ctx.fillStyle = C.flowerStem;
         ctx.fillRect(fx + sway * 0.5, fy + 4, 2, 8);
 
@@ -550,11 +550,11 @@ function updatePlayerPosition() {
     if (player.moveProgress >= 1) {
         player.col = player.targetCol;
         player.row = player.targetRow;
-        // 위치 저장
+        // Save the player's position to localStorage
         localStorage.setItem('playerCol', player.col);
         localStorage.setItem('playerRow', player.row);
     }
-}buildProjectsHTML
+}
 
 // ── Main loop ────────────────────────────────────────────
 function loop() {

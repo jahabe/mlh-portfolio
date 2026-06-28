@@ -9,7 +9,6 @@
     <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
     <title>Jane Choi</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/game.css') }}">
 </head>
@@ -18,7 +17,6 @@
 <canvas id="game"></canvas>
 <div id="hint">ARROW KEYS TO MOVE &nbsp;·&nbsp; ENTER TO INTERACT</div>
 
-<!-- Popup -->
 <div id="popup-overlay">
     <div id="popup">
         <div id="popup-header">
@@ -30,7 +28,6 @@
 </div>
 
 <script>
-    // Flask/Jinja data passed to game.js via global variables
     const FLASK_EXPERIENCES = {{ work_experiences | tojson }};
     const FLASK_EDUCATIONS  = {{ educations | tojson }};
     const FLASK_PROJECTS    = {{ projects | tojson }};

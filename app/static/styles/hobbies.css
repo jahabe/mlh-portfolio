@@ -15,13 +15,13 @@ nav {
     background: rgba(0, 0, 0, 0.2);
 }
 
-/* 메뉴 링크 - 배경 없음 */
+/* Game Navigation */
 nav.game-nav {
     display: flex;
     justify-content: center;
     gap: 40px;
     padding: 16px 0;
-    background: none;  /* 배경 제거 */
+    background: none; 
 }
 
 .nav-back {
