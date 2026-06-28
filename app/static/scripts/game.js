@@ -123,10 +123,14 @@ const constructionImg = new Image();
 constructionImg.src = '/static/img/construction_transparent.png';
 bedImages['projects'] = constructionImg;
 
+// 저장된 위치 있으면 그걸로 시작, 없으면 기본값
+const savedCol = parseInt(localStorage.getItem('playerCol')) || 0;
+const savedRow = parseInt(localStorage.getItem('playerRow')) || 14;
+
 const player = {
-    col: 0, row: 14,
-    x: 0,   y: 14 * TILE,
-    targetCol: 0, targetRow: 14,
+    col: savedCol, row: savedRow,
+    x: savedCol * TILE, y: savedRow * TILE,
+    targetCol: savedCol, targetRow: savedRow,
     moveProgress: 1,
     MOVE_SPEED: 0.12,
     dir: 'east',
@@ -166,8 +170,9 @@ window.addEventListener('keyup', e => { keys[e.key] = false; });
 function buildAboutHTML() {
     return `
         <div class="popup-section">
-            <p>Hello! I'm <strong>Jane Choi</strong>, a Computer Science student at the University of Washington.</p>
-            <p style="margin-top:10px">I love building things at the intersection of AI, systems, and design.
+            <img src="/static/img/Jane_hackathon_refined.jpg" class="profile-pic">
+            <p>Hello! I'm Jane Choi, a Computer Science student at the University of Washington.</p>
+            <p>I love building things at the intersection of AI, systems, and design.
             I'm driven by curiosity, collaboration, and the belief that good software should feel good to use.</p>
         </div>
     `;
@@ -207,21 +212,16 @@ function buildExperienceHTML() {
 function buildProjectsHTML() {
     return `
         <div class="popup-section">
-            <div class="exp-item">
-                <div class="exp-company">UWB HACKS 2026</div>
-                <div class="exp-role">SocialMaxxing</div>
-                <ul><li>First-person alien social etiquette simulator built in Unity (C#).</li></ul>
-            </div>
-            <div class="exp-item">
-                <div class="exp-company">DEEPTRACER</div>
-                <div class="exp-role">ML Research Pipeline</div>
-                <ul><li>Generative AI pipeline for 3D protein structure prediction.</li></ul>
-            </div>
-            <div class="exp-item">
-                <div class="exp-company">MICROSOFT CAPSTONE</div>
-                <div class="exp-role">Surface Keyboard Skin Detection</div>
-                <ul><li>Windows-side OS configuration tooling. 100% pass rate, ~3.9ms latency.</li></ul>
-            </div>
+            ${FLASK_PROJECTS.map(proj => `
+                <div class="exp-item">
+                    <div class="exp-company">${proj.company}</div>
+                    <div class="exp-role">${proj.role}</div>
+                    <div class="exp-duration">${proj.duration}</div>
+                    <ul>
+                        ${proj.description.map(d => `<li>${d}</li>`).join('')}
+                    </ul>
+                </div>
+            `).join('')}
         </div>
     `;
 }
@@ -550,8 +550,11 @@ function updatePlayerPosition() {
     if (player.moveProgress >= 1) {
         player.col = player.targetCol;
         player.row = player.targetRow;
+        // 위치 저장
+        localStorage.setItem('playerCol', player.col);
+        localStorage.setItem('playerRow', player.row);
     }
-}
+}buildProjectsHTML
 
 // ── Main loop ────────────────────────────────────────────
 function loop() {

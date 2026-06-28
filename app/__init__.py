@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, url_for, redirect
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -8,9 +8,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html', 
-                           title="Jane Choi", 
-                           url=os.getenv("URL"))
+    return redirect('/jane')
 
 @app.route('/jane')
 def jane(): 
@@ -30,15 +28,46 @@ def jane():
     education = [
         {"school": "University of Washington", "degree": "Bachelors of Science in Computer Science", "duration": "Expected Graduation: Winter 2027", "description": "Description"}, 
     ]
-    hobbies = [
-        {"name": "Hobby Name", "description": "Description", "image": "img/hobby1.jpg"}, 
-    ]
 
+    projects = [
+        {
+            "company": "MICROSOFT CAPSTONE",
+            "role": "Surface Laptop Keyset Research",
+            "duration": "Nov 2025 - Jun 2026",
+            "description": ["Designed Windows-side system for keyboard skin detection. Software Lead, 100% pass rate, ~3.9ms latency."]
+        },
+        {
+            "company": "UWB HACKS 2026",
+            "role": "SocialMaxxing",
+            "duration": "Apr 2026",
+            "description": ["First-person alien social etiquette simulator in Unity (C#). Even aliens need to learn manners."]
+        },
+        {
+            "company": "UNIVERSITY OF WASHINGTON",
+            "role": "Seattle Accessibility & Mobility Data Visualization",
+            "duration": "Feb 2026",
+            "description": ["Identified high-impact sidewalk barriers across Seattle using Tableau, Python, and Harvard Dataverse GeoData."]
+        },
+        {
+            "company": "CSS 370",
+            "role": "Discord Invite Sync Launcher",
+            "duration": "Mar 2025 - May 2025",
+            "description": ["Modular system syncing Steam/Epic Games with Discord for seamless multiplayer invites. 4-person team."]
+        },
+        {
+            "company": "FIGBUILD 2025",
+            "role": "AdultReady - AI Toolkit for Real-Life Skills",
+            "duration": "Apr 2025",
+            "description": ["AI-powered mobile app helping young adults navigate taxes, L&I, and real-world challenges. Built in 4 days."]
+        },
+    ]
+    
     return render_template('jane.html', 
                            url=os.getenv("URL"), 
                            work_experiences=experiences, 
                            educations=education, 
-                           hobbies=hobbies)
+                           hobbies=hobbies,
+                           projects=projects)
 
 @app.route('/jane/hobbies')
 def hobbies(): 

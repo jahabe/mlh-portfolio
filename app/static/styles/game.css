@@ -133,3 +133,37 @@ canvas {
     color: #8b6432;
     margin-bottom: 10px;
 }
+
+.about-text {
+    margin-top: 10px;
+}
+
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto 20px;
+}
+
+.game-nav {
+    position: fixed;
+    top: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    z-index: 50;
+}
+
+.game-nav-link {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
+    letter-spacing: 1px;
+}
+
+.game-nav-link:hover { color: #fff176; }

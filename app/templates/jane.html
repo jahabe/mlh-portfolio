@@ -33,9 +33,14 @@
     // Flask/Jinja data passed to game.js via global variables
     const FLASK_EXPERIENCES = {{ work_experiences | tojson }};
     const FLASK_EDUCATIONS  = {{ educations | tojson }};
-    const FLASK_HOBBIES     = {{ hobbies | tojson }};
+    const FLASK_PROJECTS    = {{ projects | tojson }};
 </script>
 <script src="{{ url_for('static', filename='scripts/game.js') }}"></script>
+
+<nav class="game-nav">
+    <a href="/jane" class="game-nav-link">HOME</a>
+    <a href="/jane/hobbies" class="game-nav-link">HOBBIES</a>
+</nav>
 
 </body>
 </html>
