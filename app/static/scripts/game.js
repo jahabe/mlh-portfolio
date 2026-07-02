@@ -72,7 +72,7 @@ const beds = [
     { id: 'education',  tile: 3, col: 8,  row: 15, label: 'EDUCATION',  color: '#3498db', type: 'popup', 
         imgDx: -70, imgDy: -80, imgW: 288, imgH: 288 },
     { id: 'experience', tile: 4, col: 13, row: 11, label: 'EXPERIENCE', color: '#f39c12', type: 'popup',
-        imgDx: 0, imgDy: 0, imgW: 144, imgH: 144 },
+        imgDx: -20, imgDy: -30, imgW: 200, imgH: 200 },
     { id: 'projects', tile: 5, col: 18, row: 15, label: 'PROJECTS', color: '#9b59b6', type: 'popup',
         imgDx: -30, imgDy: -50, imgW: 200, imgH: 200 },
     { id: 'contact', tile: 7, col: 23, row: 11, label: 'CONTACT', color: '#e84393', type: 'popup' },
@@ -112,15 +112,15 @@ uwImg.src = '/static/img/UofW.png';
 bedImages['education'] = uwImg;
 
 const buildingImg = new Image();
-buildingImg.src = '/static/img/building.png';
+buildingImg.src = '/static/img/landmark/building.png';
 bedImages['experience'] = buildingImg;
 
 const houseImg = new Image();
-houseImg.src = '/static/img/house.png';
+houseImg.src = '/static/img/landmark/house.png';
 bedImages['about'] = houseImg;
 
 const constructionImg = new Image();
-constructionImg.src = '/static/img/construction_transparent.png';
+constructionImg.src = '/static/img/landmark/construction_transparent.png';
 bedImages['projects'] = constructionImg;
 
 // 저장된 위치 있으면 그걸로 시작, 없으면 기본값
@@ -183,6 +183,7 @@ function buildEducationHTML() {
         <div class="popup-section">
             ${FLASK_EDUCATIONS.map(edu => `
                 <div class="exp-item">
+                    <img src="/static/img/uw_logo.png" class="profile-pic">
                     <div class="exp-company">${edu.school.toUpperCase()}</div>
                     <div class="exp-role">${edu.degree}</div>
                     <div class="exp-duration">${edu.duration}</div>
@@ -196,13 +197,12 @@ function buildExperienceHTML() {
     return `
         <div class="popup-section">
             ${FLASK_EXPERIENCES.map(exp => `
-                <div class="exp-item">
+                <div class="exp-item centered">
+                    ${exp.logo ? `<img src="/static/${exp.logo}" class="profile-pic">` : ''}
                     <div class="exp-company">${exp.company.toUpperCase()}</div>
                     <div class="exp-role">${exp.role}</div>
                     <div class="exp-duration">${exp.duration}</div>
-                    <ul>
-                        ${exp.description.map(d => `<li>${d}</li>`).join('')}
-                    </ul>
+                    ${exp.description.map(d => `<p>${d}</p>`).join('')}
                 </div>
             `).join('')}
         </div>
@@ -213,13 +213,13 @@ function buildProjectsHTML() {
     return `
         <div class="popup-section">
             ${FLASK_PROJECTS.map(proj => `
-                <div class="exp-item">
+                <div class="exp-item centered">
                     <div class="exp-company">${proj.company}</div>
                     <div class="exp-role">${proj.role}</div>
                     <div class="exp-duration">${proj.duration}</div>
-                    <ul>
-                        ${proj.description.map(d => `<li>${d}</li>`).join('')}
-                    </ul>
+                    ${proj.image ? `<img src="/static/${proj.image}" class="project-banner">` : ''}
+                    ${proj.description.map(d => `<p>${d}</p>`).join('')}
+                    ${proj.link ? `<a href="${proj.link}" target="_blank" class="project-btn">VIEW PROJECT</a>` : ''}
                 </div>
             `).join('')}
         </div>
@@ -228,7 +228,7 @@ function buildProjectsHTML() {
 
 function buildContactHTML() {
     return `
-        <p style="text-align: center;">Feel free to reach out! :) </p>
+        <p class="contact-intro">Feel free to reach out! :) </p>
         <div style="display: flex; justify-content: center; align-items: center; gap: 40px; padding: 40px 0;">
             <a href="https://linkedin.com/in/jane026/" target="_blank" title="LinkedIn">
                 <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/linkedin.svg" width="48" height="48" style="filter: invert(0.3);">
@@ -301,6 +301,10 @@ function openPopup(id) {
     document.getElementById('popup-title').textContent = data.title;
     document.getElementById('popup-body').innerHTML    = data.html;
     document.getElementById('popup-overlay').classList.add('active');
+
+    setTimeout(() => {
+        document.getElementById('popup-body').scrollTop = 0;
+    }, 10);
 }
 
 function closePopup() {
@@ -389,6 +393,15 @@ function drawScene() {
     const hintY = 14 * TILE - cam.y + TILE / 2 - 30;
     ctx.fillText('HOBBIES →', hintX, hintY);
     ctx.textAlign = 'left';
+
+    // Weather (top right)
+    if (weatherText) {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.font = '10px "Press Start 2P"';
+        ctx.textAlign = 'right';
+        ctx.fillText(weatherText, canvas.width - 30, 50);
+        ctx.textAlign = 'left';
+    }
 
     // Cherry blossom petals
     for (const p of petals) {
@@ -570,3 +583,19 @@ function loop() {
 }
 
 requestAnimationFrame(loop);
+
+// ── Weather ───────────────────────────────────────────────
+let weatherText = '';
+
+async function fetchWeather() {
+    try {
+        const res = await fetch('/api/weather');
+        const data = await res.json();
+        weatherText = `Seattle ${data.temp}°F · ${data.desc}`;
+    } catch (e) {
+        console.warn('Weather fetch failed:', e);
+    }
+}
+
+fetchWeather();
+setInterval(fetchWeather, 600000);

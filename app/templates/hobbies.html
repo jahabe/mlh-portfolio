@@ -28,12 +28,12 @@
 
 <div class="page-header">
     <h1>HOBBIES</h1>
-    <p>Things I love outside of code</p>
+    <p>Things I love outside of work</p>
 </div>
 
 <div class="hobbies-grid">
     {% for hobby in hobbies %}
-    <div class="hobby-card">
+    <div class="hobby-card" data-index="{{ loop.index0 }}">
         <img class="hobby-card-image" src="{{ url_for('static', filename=hobby.image) }}" alt="{{ hobby.name }}">
         <div class="hobby-card-body">
             <span class="hobby-card-tag">HOBBY</span>
@@ -61,6 +61,56 @@
     visitedPlaces.forEach(p => {
         L.marker([p.lat, p.lng]).addTo(leafletMap).bindPopup(p.name);
     });
+</script>
+
+<!-- Photo popup -->
+<div id="hobby-popup-overlay" onclick="closeHobbyPopup()">
+    <div id="hobby-popup" onclick="event.stopPropagation()">
+        <button class="hobby-popup-close" onclick="closeHobbyPopup()">✕</button>
+        <div class="hobby-slider">
+            <button class="hobby-slider-btn left" onclick="hobbySlide(-1)">&#8249;</button>
+            <img id="hobby-slider-img" src="" alt="">
+            <button class="hobby-slider-btn right" onclick="hobbySlide(1)">&#8250;</button>
+        </div>
+        <div id="hobby-slider-dots"></div>
+    </div>
+</div>
+
+<script>
+    const HOBBY_DATA = {{ hobbies | tojson }};
+    let hobbyPhotos = [];
+    let hobbyIndex = 0;
+
+    document.querySelectorAll('.hobby-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const hobby = HOBBY_DATA[card.dataset.index];
+            openHobbyPopup(hobby.photos, hobby.name);
+        });
+    });
+
+    function openHobbyPopup(photos, name) {
+        hobbyPhotos = photos;
+        hobbyIndex = 0;
+        updateHobbySlider();
+        document.getElementById('hobby-popup-overlay').classList.add('active');
+    }
+
+    function closeHobbyPopup() {
+        document.getElementById('hobby-popup-overlay').classList.remove('active');
+    }
+
+    function hobbySlide(dir) {
+        hobbyIndex = (hobbyIndex + dir + hobbyPhotos.length) % hobbyPhotos.length;
+        updateHobbySlider();
+    }
+
+    function updateHobbySlider() {
+        document.getElementById('hobby-slider-img').src = '/static/' + hobbyPhotos[hobbyIndex];
+        const dots = document.getElementById('hobby-slider-dots');
+        dots.innerHTML = hobbyPhotos.map((_, i) =>
+            `<span class="hobby-dot ${i === hobbyIndex ? 'active' : ''}" onclick="hobbyIndex=${i}; updateHobbySlider()"></span>`
+        ).join('');
+    }
 </script>
 
 </body>

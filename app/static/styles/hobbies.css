@@ -140,3 +140,97 @@ nav.game-nav {
 }
 
 .game-nav-link:hover { color: #fff176; }
+
+/* Hobby popup */
+#hobby-popup-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+}
+
+#hobby-popup-overlay.active {
+    display: flex;
+}
+
+#hobby-popup {
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    max-width: 90vw;
+    max-height: 90vh;
+    width: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hobby-popup-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.hobby-slider {
+    position: relative;
+    width: 100%;
+}
+
+#hobby-slider-img {
+    max-width: 100%;
+    max-height: 75vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 12px;
+    display: block;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+}
+
+.hobby-slider-btn {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    border: none;
+    font-size: 40px;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    z-index: 210;
+}
+
+.hobby-slider-btn.left  { left: 24px; }
+.hobby-slider-btn.right { right: 24px; }
+.hobby-slider-btn.left  { left: 8px; }
+.hobby-slider-btn.right { right: 8px; }
+
+#hobby-slider-dots {
+    text-align: center;
+    margin-top: 12px;
+}
+
+.hobby-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ccc;
+    margin: 0 4px;
+    cursor: pointer;
+}
+
+.hobby-dot.active { background: #e74c3c; }

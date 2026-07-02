@@ -104,8 +104,9 @@ canvas {
 .popup-section ul { padding-left: 16px; }
 
 .exp-item {
-    margin-bottom: 5px;
-    padding-bottom: 5px;
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
     border-bottom: 1px dotted #c8a96e;
 }
 
@@ -167,3 +168,34 @@ canvas {
 }
 
 .game-nav-link:hover { color: #fff176; }
+
+.project-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    background: #8b6432;
+    color: #f5e6c8;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    text-decoration: none;
+    border-radius: 4px;
+    letter-spacing: 1px;
+}
+
+.project-btn:hover { background: #5a3e1e; }
+
+.project-banner {
+    width: 85%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+    margin: 0 auto 16px;
+}
+
+.contact-intro {
+    text-align: center;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 20px;
+    color: #404040;
+}
