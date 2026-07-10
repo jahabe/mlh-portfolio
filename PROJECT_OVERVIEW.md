@@ -3,6 +3,8 @@
 - An interactive, top-down pixel-art portfolio built with Flask. 
 - Inspiration: Stardew Valley
 
+Link: http://janechoi.duckdns.org:5000/jane
+
 ## About This Project
 
 The homepage ([jane.html](app/templates/jane.html)) is an HTML5 `<canvas>` game rendered and driven entirely by [app/static/scripts/game.js](app/static/scripts/game.js):
