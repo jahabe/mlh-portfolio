@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="og:title" content="Jane Choi · Timeline">
+    <meta property="og:description" content="My Personal Portfolio">
+    <meta property="og:url" content="{{ url }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <title>Timeline · Jane Choi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/timeline.css') }}">
+</head>
+<body>
+
+<nav>
+    <a href="/jane" class="nav-back">&lt;&lt;BACK</a>
+    <div class="nav-title">JANE CHOI</div>
+    <div></div>
+</nav>
+
+<nav class="game-nav">
+    <a href="/jane" class="game-nav-link">HOME</a>
+    <a href="/jane/hobbies" class="game-nav-link">HOBBIES</a>
+    <a href="/timeline" class="game-nav-link">TIMELINE</a>
+</nav>
+
+<div class="page-header">
+    <h1>TIMELINE</h1>
+    <p>Leave your updates here :D</p>
+</div>
+
+<form id="timeline-form" class="timeline-form">
+    <input type="text" name="name" placeholder="Your name" required>
+    <input type="email" name="email" placeholder="Your email" required>
+    <textarea name="content" placeholder="Your message" required rows="3"></textarea>
+    <button type="submit">POST</button>
+</form>
+
+<div id="timeline-posts" class="timeline-posts"></div>
+
+<script>
+    const form = document.getElementById('timeline-form');
+    const postsContainer = document.getElementById('timeline-posts');
+
+    function renderPosts(posts) {
+        postsContainer.innerHTML = posts.map(p => `
+            <div class="timeline-post">
+                <div class="timeline-post-header">
+                    <strong>${p.name}</strong>
+                    <span class="timeline-post-date">${p.created_at}</span>
+                </div>
+                <p>${p.content}</p>
+            </div>
+        `).join('');
+    }
+
+    function loadPosts() {
+        fetch('/api/timeline_post')
+            .then(res => res.json())
+            .then(data => renderPosts(data.timeline_posts));
+    }
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(form);
+
+        fetch('/api/timeline_post', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(() => {
+            form.reset();
+            loadPosts();
+        });
+    });
+
+    loadPosts();
+</script>
+
+</body>
+</html>
