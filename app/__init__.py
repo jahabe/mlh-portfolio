@@ -90,7 +90,7 @@ def hobbies():
             ]
         },
         {
-            "name": "Petting Cat",
+            "name": "Petting Cats",
             "description": "Life's greatest joy.",
             "image": "img/hobby/cat/cat.jpg",
             "photos": [
